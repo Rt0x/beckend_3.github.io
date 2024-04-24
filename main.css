@@ -23,7 +23,7 @@ form {
     flex-flow: column wrap;
     text-indent: inherit;
     border-spacing: 2px;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     color: #ffffff;
