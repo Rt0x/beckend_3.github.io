@@ -46,7 +46,9 @@ form {
 
 .btn-1 {
     background: #ffffff;
-
+    background: -webkit-radial-gradient(circle farthest-corner at center center, #000000 0%, #1f0a46 67%);
+    background: -moz-radial-gradient(circle farthest-corner at center center, #000000 0%, #1f0a46 67%);
+    background: radial-gradient(circle farthest-corner at center center, #000000 0%, #1f0a46 67%);
     border: none;
 }
 
