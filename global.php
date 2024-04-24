@@ -1,9 +1,9 @@
 <?PHP
 
-$user = 'u67307';
-$pass = '2532509';
-$db = new PDO(
-    'mysql:host=localhost;dbname=u67307',
+$user = 'u67296';
+$pass = '5237724';
+$global = new PDO(
+    'mysql:host=localhost;dbname=u67296',
     $user,
     $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
@@ -18,17 +18,19 @@ try {
     if (!preg_match('/^[А-ЯЁёа-я\s]+$/u', $login)) {
         echo " <p style='color: red;'>Ошибка: поле login должно содержать только русские буквы</p>";
         $login = '';
-    } elseif (substr($tel, 0, 2) !== '+7') {
+    }
+    if (substr($tel, 0, 2) !== '+7') {
         echo " <p style='color: red;'>Ошибка: номер телефона должен начинаться с +7</p>";
         $tel = '';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<p style='color: red;'>Ошибка: неправильный формат email</p>";
         $email = '';
-    } elseif ($date < 18) {
+    }
+    if ($date < 18) {
         echo "<p style='color: red;'>Ошибка: пользователь должен быть совершеннолетним</p>";
     } else {
-
-        $stmt = $db->prepare("INSERT INTO users (full_name, phone,email,birth_date,gender,bio,contract_agreed) VALUES (:full_name, :phone,:email,:birth_date,:gender,:bio,:contract_agreed)");
+        $stmt = $global->prepare("INSERT INTO users (Name, phone,email,birth_date,gender,Biographi,contract_agreed) VALUES (:Name, :phone,:email,:birth_date,:gender,:Biographi,:contract_agreed)");
         $login = $_POST['login'];
         $email = $_POST['email'];
         $tel = $_POST['tel'];
@@ -36,35 +38,18 @@ try {
         $someGroupName = $_POST['someGroupName'];
         $bio = $_POST['bio'];
         $checkt = $_POST['checkt'];
-        $stmt->bindParam(':full_name', $login);
+        $stmt->bindParam(':Name', $login);
         $stmt->bindParam(':phone', $tel);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':birth_date', $date);
         $stmt->bindParam(':gender', $someGroupName);
-        $stmt->bindParam(':bio', $bio);
+        $stmt->bindParam(':Biographi', $bio);
         $stmt->bindParam(':contract_agreed', $checkt);
         $stmt->execute();
-
-
-
-        // $user_id = $db->lastInsertId();
-
-        // $stmt = $db->prepare("INSERT INTO user_languages (user_id, language) VALUES (:user_id,:language)");
-        // $stmt->bindParam(':user_id', $user_id);
-        // $Languages = $_POST['lange'];
-        // foreach ($Languages as $language) {
-        //     $kl = implode($Languages);
-        //     $stmt->bindParam(':language', $kl);
-        //     $stmt->execute();
-        // }
-
-
-
-        $user_id = $db->lastInsertId();
+        $user_id = $global->lastInsertId();
         $Languages = $_POST['language'];
-
         foreach ($Languages as $language_name) {
-            $stmt = $db->prepare("INSERT INTO user_languages (user_id, language_name) VALUES (:user_id,:language_name)");
+            $stmt = $global->prepare("INSERT INTO user_languages (user_id, language_name) VALUES (:user_id,:language_name)");
             $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':language_name', $language_name);
             $stmt->execute();
@@ -75,12 +60,4 @@ try {
     print ('Error : ' . $e->getMessage());
     exit();
 }
-
-// $Languages = $_POST['lange'];
-// foreach ($Languages as $lange) {
-//     $stmt = $db->prepare("INSERT INTO programming_languages (lang_id, lang_name) VALUES (:lang_id, :lang_name)");
-
-//     $stmt->bindParam(':lang_name', $kl);
-// }
-
 ?>
