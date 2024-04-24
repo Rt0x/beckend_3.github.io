@@ -30,7 +30,7 @@ try {
     if ($date < 18) {
         echo "<p style='color: red;'>Ошибка: пользователь должен быть совершеннолетним</p>";
     } else {
-        $stmt = $global->prepare("INSERT INTO users (Name, phone,email,birth_date,gender,Biographi,contract_agreed) VALUES (:Name, :phone,:email,:birth_date,:gender,:Biographi,:contract_agreed)");
+        $stmt = $global->prepare("INSERT INTO osnova (Name, phone,email,birth_date,gender,Biographi,contract_agreed) VALUES (:Name, :phone,:email,:birth_date,:gender,:Biographi,:contract_agreed)");
         $login = $_POST['login'];
         $email = $_POST['email'];
         $tel = $_POST['tel'];
@@ -46,10 +46,12 @@ try {
         $stmt->bindParam(':Biographi', $bio);
         $stmt->bindParam(':contract_agreed', $checkt);
         $stmt->execute();
+
+
         $user_id = $global->lastInsertId();
         $Languages = $_POST['language'];
         foreach ($Languages as $language_name) {
-            $stmt = $global->prepare("INSERT INTO user_languages (user_id, language_name) VALUES (:user_id,:language_name)");
+            $stmt = $global->prepare("INSERT INTO languages (user_id, language_name) VALUES (:user_id,:language_name)");
             $stmt->bindParam(':user_id', $user_id);
             $stmt->bindParam(':language_name', $language_name);
             $stmt->execute();
