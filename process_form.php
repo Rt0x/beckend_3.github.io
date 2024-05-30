@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Вставка данных в базу данных
     try {
-        $stmt = $conn->prepare("INSERT INTO users (fio, phone, email, dob, gender, languages, bio, agreement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO osnova (fio, phone, email, dob, gender, languages, bio, agreement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$fio, $phone, $email, $dob, $gender, $languages, $bio, $agreement]);
         echo "Данные успешно сохранены.";
     } catch (PDOException $e) {
